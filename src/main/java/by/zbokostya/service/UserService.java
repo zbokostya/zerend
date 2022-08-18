@@ -24,7 +24,6 @@ public class UserService {
     }
 
 
-
     public UUID createUser(LoginVM loginVM) {
         UUID uuid = UUID.randomUUID();
         dsl.insertInto(Tables.USER)
@@ -60,20 +59,19 @@ public class UserService {
                 );
     }
 
-//    public String generateApiUser() {
-//        User user = getUserWithAuthorities();
-//        UserApi newApi = new UserApi();
-//        newApi.setUuid(UUID.randomUUID());
-//        apiRepository.save(newApi);
-//
-//        user.addApi(newApi);
-//        userRepository.save(user);
-//        return newApi.getUuid().toString().replace("-", "");
-//    }
-//
-//    public List<String> getUserApiList(String login) {
-//
-//    }
+    public String generateApiUser() {
+        UUID uuid = UUID.randomUUID();
+        dsl
+                .insertInto(Tables.USER_API)
+                .values(
+                        dsl.selectFrom(Tables.USER)
+                                .where(Tables.USER.LOGIN.eq(SecurityUtils.getCurrentUserLogin()))
+                                .fetchOne(Tables.USER.ID),
+                        uuid
+                )
+                .execute();
+        return uuid.toString().replace("-", "");
+    }
 
 
 }

@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/api/")
+@RequestMapping("/api/api")
 public class ApiController {
 
     private final ApiService apiService;

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/all")
@@ -32,10 +33,10 @@ public class UserController {
         return userService.getUserWithAuthorities();
     }
 
-//    @GetMapping("/generateapi")
-//    public ResponseEntity<String> generateApi() {
-//        return ResponseEntity.ok(userService.generateApiUser());
-//    }
+    @GetMapping("/generateapi")
+    public ResponseEntity<String> generateApi() {
+        return ResponseEntity.ok(userService.generateApiUser());
+    }
 
 
 }

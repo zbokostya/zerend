@@ -2,7 +2,11 @@ package by.zbokostya.controller;
 
 
 import by.zbokostya.entity.LoginVM;
+import by.zbokostya.security.jwt.JWTFilter;
+import by.zbokostya.security.jwt.TokenProvider;
 import by.zbokostya.service.UserService;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,10 +23,13 @@ import java.util.UUID;
 public class AuthController {
 
     private final UserService userService;
+
+    private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthController(UserService userService, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AuthController(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
+        this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
@@ -38,14 +45,35 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<UsernamePasswordAuthenticationToken> authorize(@RequestBody LoginVM loginVM) {
+    public ResponseEntity<JWTToken> authorize(@RequestBody LoginVM loginVM) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginVM.getLogin(),
                 loginVM.getPassword()
         );
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(new UsernamePasswordAuthenticationToken(loginVM.getLogin(), loginVM.getPassword()), HttpStatus.OK);
+        String jwt = tokenProvider.generateToken(authentication);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+    }
+
+    static class JWTToken {
+
+        private String idToken;
+
+        JWTToken(String idToken) {
+            this.idToken = idToken;
+        }
+
+        @JsonProperty("id_token")
+        String getIdToken() {
+            return idToken;
+        }
+
+        void setIdToken(String idToken) {
+            this.idToken = idToken;
+        }
     }
 
 }
