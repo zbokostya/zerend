@@ -4,11 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "role")
 public class Authority {
 
-    @Id
     private String name;
 
     public Authority(String name) {

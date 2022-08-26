@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-//@Entity
-//@Table(name = "\"user\"")
 @Data
 public class User {
 
