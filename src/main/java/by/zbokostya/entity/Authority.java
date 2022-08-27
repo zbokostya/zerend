@@ -1,9 +1,5 @@
 package by.zbokostya.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 public class Authority {
 
     private String name;

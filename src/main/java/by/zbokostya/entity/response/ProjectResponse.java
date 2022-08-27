@@ -1,13 +1,11 @@
-package by.zbokostya.entity;
+package by.zbokostya.entity.response;
 
 import java.util.UUID;
 
-public class Project {
+public class ProjectResponse {
     private UUID id;
     private String name;
     private String url;
-    private String apiKey;
-    private UUID owner;
 
     public UUID getId() {
         return id;
@@ -31,21 +29,5 @@ public class Project {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
-    public UUID getOwner() {
-        return owner;
-    }
-
-    public void setOwner(UUID owner) {
-        this.owner = owner;
     }
 }

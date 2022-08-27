@@ -1,7 +1,7 @@
 package by.zbokostya.controller;
 
 
-import by.zbokostya.entity.LoginVM;
+import by.zbokostya.entity.input.LoginInput;
 import by.zbokostya.security.jwt.JWTFilter;
 import by.zbokostya.security.jwt.TokenProvider;
 import by.zbokostya.service.UserService;
@@ -33,22 +33,18 @@ public class AuthController {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
-
-//    @PostMapping("/authenticate")
-//    private void register() {}
-
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UUID> register(@RequestBody LoginVM loginVM) {
-        return ResponseEntity.ok(userService.createUser(loginVM));
+    public ResponseEntity<UUID> register(@RequestBody LoginInput loginInput) {
+        return ResponseEntity.ok(userService.createUser(loginInput));
 
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JWTToken> authorize(@RequestBody LoginVM loginVM) {
+    public ResponseEntity<JWTToken> authorize(@RequestBody LoginInput loginInput) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginVM.getLogin(),
-                loginVM.getPassword()
+                loginInput.getLogin(),
+                loginInput.getPassword()
         );
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

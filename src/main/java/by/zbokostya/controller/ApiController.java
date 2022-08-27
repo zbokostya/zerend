@@ -5,12 +5,15 @@ import by.zbokostya.entity.api.UserApi;
 import by.zbokostya.security.SecurityUtils;
 import by.zbokostya.service.ApiService;
 import by.zbokostya.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.jooq.JSON;
 import org.jooq.tools.json.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.net.URISyntaxException;
 import java.util.UUID;
@@ -56,11 +59,7 @@ public class ApiController {
     }
 
     private UUID parseAPI(String api) {
-        return UUID.fromString(
-                api.replaceFirst(
-                        "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
-                        "$1-$2-$3-$4-$5"
-                ));
+        return UUID.fromString(api.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5"));
     }
 
 }

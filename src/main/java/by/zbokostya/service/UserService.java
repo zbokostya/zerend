@@ -1,76 +1,27 @@
 package by.zbokostya.service;
 
-import by.zbokostya.domain.Tables;
-import by.zbokostya.entity.Authority;
-import by.zbokostya.entity.LoginVM;
+import by.zbokostya.dao.UserDao;
 import by.zbokostya.entity.User;
-import by.zbokostya.entity.api.UserApi;
-import by.zbokostya.security.SecurityUtils;
-import org.jooq.DSLContext;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import by.zbokostya.entity.input.LoginInput;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.UUID;
 
 @Service
 public class UserService {
-    private final DSLContext dsl;
 
-    private final PasswordEncoder passwordEncoder;
+    private final UserDao userDao;
 
-    public UserService(DSLContext dsl, PasswordEncoder passwordEncoder) {
-        this.dsl = dsl;
-        this.passwordEncoder = passwordEncoder;
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
-
-    public UUID createUser(LoginVM loginVM) {
-        UUID uuid = UUID.randomUUID();
-        dsl.insertInto(Tables.USER)
-                .values(uuid,
-                        loginVM.getLogin(),
-                        passwordEncoder.encode(loginVM.getPassword()),
-                        "").execute();
-        dsl.insertInto(Tables.USER_ROLE)
-                .values(uuid, "ROLE_USER")
-                .execute();
-        return uuid;
-    }
-
-
-    public User getUserWithAuthorities() {
-        return findUserByUsername(SecurityUtils.getCurrentUserLogin());
+    public UUID createUser(LoginInput loginInput) {
+        return userDao.createUser(loginInput);
     }
 
     public User findUserByUsername(String login) {
-        return dsl
-                .fetchOne(Tables.USER, Tables.USER.LOGIN.eq(login))
-                .map(
-                        r -> {
-                            User user = r.into(User.class);
-                            user.setAuthorities(
-                                    dsl.select(Tables.USER_ROLE.USER_ROLE_)
-                                            .from(Tables.USER_ROLE)
-                                            .where(Tables.USER_ROLE.USER_ID.eq(user.getId()))
-                                            .fetchInto(Authority.class)
-                            );
-                            return user;
-                        }
-                );
-    }
-
-    public String generateApiUser() {
-        UUID uuid = UUID.randomUUID();
-        dsl
-                .insertInto(Tables.USER_API)
-                .values(
-                        dsl.selectFrom(Tables.USER)
-                                .where(Tables.USER.LOGIN.eq(SecurityUtils.getCurrentUserLogin()))
-                                .fetchOne(Tables.USER.ID),
-                        uuid
-                )
-                .execute();
-        return uuid.toString().replace("-", "");
+        return userDao.findUserByUsername(login);
     }
 
 

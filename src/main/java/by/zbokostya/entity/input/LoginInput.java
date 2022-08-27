@@ -1,6 +1,6 @@
-package by.zbokostya.entity;
+package by.zbokostya.entity.input;
 
-public class LoginVM {
+public class LoginInput {
 
     private String login;
     private String password;
