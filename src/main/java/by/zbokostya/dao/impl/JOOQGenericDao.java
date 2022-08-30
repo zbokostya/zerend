@@ -1,24 +1,25 @@
-package by.zbokostya.dao;
+package by.zbokostya.dao.impl;
+
+import by.zbokostya.dao.IGenericDao;
+import org.jooq.Condition;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Record;
+import org.jooq.SelectSeekStepN;
+import org.jooq.SortField;
+import org.jooq.Table;
+import org.jooq.UniqueKey;
+import org.jooq.UpdatableRecord;
+import org.jooq.impl.DSL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import by.zbokostya.dao.iDao.IGenericDao;
-import org.jooq.*;
-import org.jooq.Record;
-import org.jooq.impl.DSL;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JOOQGenericDao<T, ID extends Serializable> implements IGenericDao<T, ID> {
     Logger log = LoggerFactory.getLogger(this.getClass());
@@ -160,31 +161,6 @@ public class JOOQGenericDao<T, ID extends Serializable> implements IGenericDao<T
         SelectSeekStepN<Record> step = getDSLContext().select().from(table).where(c).orderBy(sorts);
         return step.fetchInto(entityClass);
     }
-
-//    @Override
-//    public PageResult<T> fetch(PageResult<T> page, Condition... conditions) {
-//        return fetch(page, Stream.of(conditions));
-//    }
-//
-//    @Override
-//    public PageResult<T> fetch(PageResult<T> page, SortField<?> sort) {
-//        return fetch(page, Stream.empty(), sort);
-//    }
-//
-//    @Override
-//    public PageResult<T> fetchWithOptional(PageResult<T> page, Stream<Optional<Condition>> conditions,
-//                                           SortField<?>... sorts) {
-//        return fetch(page, conditions.filter(Optional::isPresent).map(Optional::get), sorts);
-//    }
-//
-//    @Override
-//    public PageResult<T> fetch(PageResult<T> page, Stream<Condition> conditions, SortField<?>... sorts) {
-//        Condition c = conditions.reduce((acc, item) -> acc.and(item)).orElse(DSL.trueCondition());
-//        return fetch(page, e -> {
-//            return e.select(table.fields()).from(table).where(c).orderBy(sorts);
-//        }, entityClass);
-//    }
-
     @Override
     public Optional<T> fetchOne(Condition... conditions) {
         return fetchOne(Stream.of(conditions));
@@ -241,51 +217,10 @@ public class JOOQGenericDao<T, ID extends Serializable> implements IGenericDao<T
         return r;
     }
 
-    private <E> Map<String, Method> getSetMethods(Class<E> clazz) {
-        Map<String, Method> entityMethodMap = new HashMap<>();
-        Arrays.asList(clazz.getMethods()).forEach(m -> {
-            if (m.getName().startsWith("set")) {
-                entityMethodMap.put(m.getName(), m);
-            }
-        });
-        return entityMethodMap;
-    }
-
-    private <E> void setObjectValue(String name, Object value, E entity, Map<String, Method> entityMethodMap) {
-        StringBuffer setMethodName = new StringBuffer();
-        setMethodName.append("set");
-        if (name.indexOf("_") != -1) {
-            Arrays.asList(name.split("_")).forEach(n -> {
-                setMethodName.append(toCamelCase(n));
-            });
-        } else {
-            setMethodName.append(toCamelCase(name));
-        }
-        try {
-            Method m = entityMethodMap.get(setMethodName.toString());
-            if (m != null) {
-                m.invoke(entity, value);
-            } else if (log.isDebugEnabled()) {
-                log.debug(setMethodName + " for entity " + entity.getClass().getName() + " not exists");
-            }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            if (log.isWarnEnabled()) {
-                log.warn(
-                        "class: " + entity.getClass().getName() +
-                                " invok method " + setMethodName + " with " + value + " failed:" + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String toCamelCase(String name) {
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
-    }
-
     @Override
-    public T update(T entiry, boolean ignoreNull) {
-        record(entiry, true, getDSLContext(), ignoreNull).update();
-        return entiry;
+    public T update(T entity, boolean ignoreNull) {
+        record(entity, true, getDSLContext(), ignoreNull).update();
+        return entity;
     }
 
     @Override

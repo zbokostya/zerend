@@ -40,10 +40,10 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getAllProjects(userId));
     }
 
-    @GetMapping("/project/{project_id}")
-    public ResponseEntity<Project> getProjectById(@PathVariable UUID project_id) {
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<Project> getProjectById(@PathVariable UUID projectId) {
         UUID userId = userService.findUserByUsername(getCurrentUserLogin()).getId();
-        return ResponseEntity.ok(projectService.getProjectById(userId, project_id));
+        return ResponseEntity.ok(projectService.getProjectById(userId, projectId));
     }
 
     @PostMapping("/project/create")
@@ -70,17 +70,17 @@ public class ProjectController {
     }
 
     // todo
-    @PostMapping("/project/{project_id}")
-    public ResponseEntity<Project> updateProject(@PathVariable(required = false) UUID project_id, @RequestBody Project project) {
+    @PostMapping("/project/{projectId}")
+    public ResponseEntity<Project> updateProject(@PathVariable(required = true) UUID projectId, @RequestBody Project project) {
         if (project.getId() == null)
             // todo
             throw new BadRequestAlertException("error");
-        if (!project.getId().equals(project_id))
+        if (!project.getId().equals(projectId))
             // todo
             throw new BadRequestAlertException("error");
 
         UUID userId = userService.findUserByUsername(getCurrentUserLogin()).getId();
-        if (!projectService.existsProjectById(userId, project_id))
+        if (!projectService.existsProjectById(userId, projectId))
             // todo
             throw new BadRequestAlertException("error");
 

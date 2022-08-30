@@ -1,4 +1,4 @@
-package by.zbokostya.dao.iDao;
+package by.zbokostya.dao;
 
 import by.zbokostya.entity.input.LoginInput;
 import by.zbokostya.entity.User;

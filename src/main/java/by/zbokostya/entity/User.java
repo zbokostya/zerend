@@ -1,10 +1,7 @@
 package by.zbokostya.entity;
 
-import by.zbokostya.entity.api.UserApi;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class User {
@@ -15,13 +12,9 @@ public class User {
     private String password;
     private String email;
 
-    private Set<UserApi> apis = new HashSet<>();
 
     private List<Authority> authorities;
 
-    public void addApi(UserApi api) {
-        this.apis.add(api);
-    }
 
     public UUID getId() {
         return id;
@@ -53,14 +46,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Set<UserApi> getApis() {
-        return apis;
-    }
-
-    public void setApis(Set<UserApi> apis) {
-        this.apis = apis;
     }
 
     public List<Authority> getAuthorities() {

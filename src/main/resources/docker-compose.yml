@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "zerend"
+      POSTGRES_USER: "zbokostya"
+      POSTGRES_PASSWORD: "zbokostya"
+    ports:
+      - "5432:5432"

@@ -1,6 +1,6 @@
 package by.zbokostya.service;
 
-import by.zbokostya.dao.ProjectDao;
+import by.zbokostya.dao.IProjectDao;
 import by.zbokostya.entity.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,9 @@ public class ProjectService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
-    private final ProjectDao projectDao;
+    private final IProjectDao projectDao;
 
-    public ProjectService(ProjectDao projectDao) {
+    public ProjectService(IProjectDao projectDao) {
         this.projectDao = projectDao;
     }
 
@@ -27,20 +27,22 @@ public class ProjectService {
     }
 
     public void createProject(Project project) {
-        projectDao.createProject(project);
+        projectDao.insert(project);
     }
 
 
     public List<Project> getAllProjects(UUID userId) {
-        return projectDao.getAllProjects(userId);
+        return projectDao.getByOwner(userId);
     }
 
     public Project getProjectById(UUID userId, UUID projectId) {
-        return projectDao.getProjectById(userId, projectId);
+        Project project = projectDao.get(projectId);
+        if(!project.getOwner().equals(userId)) return null;
+        return project;
     }
 
     public boolean existsProjectById(UUID userId, UUID projectId) {
-        return projectDao.existsProjectById(userId, projectId);
+        return projectDao.existsByIdAndOwner(projectId, userId);
     }
 
 }

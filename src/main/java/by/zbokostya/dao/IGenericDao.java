@@ -1,4 +1,4 @@
-package by.zbokostya.dao.iDao;
+package by.zbokostya.dao;
 
 import org.jooq.DSLContext;
 import org.jooq.SortField;

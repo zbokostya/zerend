@@ -1,6 +1,6 @@
-package by.zbokostya.dao;
+package by.zbokostya.dao.impl;
 
-import by.zbokostya.dao.iDao.IUserDao;
+import by.zbokostya.dao.IUserDao;
 import by.zbokostya.domain.Tables;
 import by.zbokostya.entity.Authority;
 import by.zbokostya.entity.User;
