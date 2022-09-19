@@ -8,7 +8,7 @@
         <version>2.7.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
+    <groupId>by.zbokostya</groupId>
     <artifactId>zerend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>zerend</name>
@@ -20,6 +20,7 @@
         <db.url>jdbc:postgresql://localhost:5432/zerend</db.url>
         <db.username>zbokostya</db.username>
         <db.password>zbokostya</db.password>
+        <jooq.skip>false</jooq.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -77,7 +78,6 @@
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
             <version>${jooq.version}</version>
-
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -109,7 +109,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jdbc>  <!-- указываем настройки базы -->
+                    <skip>${jooq.skip}</skip>
+                    <jdbc>
                         <driver>${db.driver}</driver>
                         <url>${db.url}</url>
                         <user>${db.username}</user>
@@ -121,21 +122,25 @@
                             <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
                         </strategy>
                         <database>
-                            <includes>.*</includes>  <!-- включаемые подпакеты и файлы -->
-                            <excludes>  <!-- исключаемые подпакеты и файлы -->
+                            <includes>.*</includes>
+                            <excludes>
                                 flyway_schema_history
                             </excludes>
-                            <inputSchema>public</inputSchema>  <!-- схема -->
+                            <inputSchema>public</inputSchema>
+                            <forcedTypes>
+                                <forcedType>
+                                    <name>Instant</name>
+                                    <includeTypes>timestamptz</includeTypes>
+                                </forcedType>
+                            </forcedTypes>
                         </database>
                         <generate>
                             <records>true</records>
                             <pojos>true</pojos>
                         </generate>
                         <target>
-                            <!-- структура пакетов относительно основной директории -->
-                            <packageName>by.zbokostya.domain</packageName>
-                            <!-- основная директория. Лучше хранить в target. -->
-                            <directory>target/generated-sources/jooq</directory>
+                            <packageName>by.zbokostya.generated.jooq</packageName>
+                            <directory>src/main/java</directory>
                         </target>
                     </generator>
                 </configuration>
