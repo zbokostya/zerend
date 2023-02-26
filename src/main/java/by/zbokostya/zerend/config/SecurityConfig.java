@@ -38,10 +38,11 @@ public class SecurityConfig {
                         .antMatchers("/api/register").permitAll()
                         .antMatchers("/api/authenticate").permitAll()
                         .antMatchers("/user/**").authenticated()
-                        .antMatchers("/apikey/**/ability/create")
-                        .hasAuthority("ROLE_OWNER")
-                        .antMatchers("/apikey/**")
-                        .hasAnyAuthority("ROLE_OWNER", "ROLE_READER"))
+                        .antMatchers("/user/project/**/apikey").permitAll()
+                        .antMatchers("/apikey/project/**")
+                        .hasAnyAuthority("ROLE_VIEWER")
+                        .antMatchers("/apikey/project/**/ability/**")
+                        .hasAnyAuthority("ROLE_VIEWER"))
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();

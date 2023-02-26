@@ -1,8 +1,9 @@
 package by.zbokostya.zerend.service.impl;
 
+import by.zbokostya.zerend.dao.IAbilityDao;
+import by.zbokostya.zerend.dao.IApikeyDao;
 import by.zbokostya.zerend.dao.impl.AbilityDao;
 import by.zbokostya.zerend.dao.impl.ApikeyDao;
-import by.zbokostya.zerend.dao.impl.ProjectDao;
 import by.zbokostya.zerend.entity.Ability;
 import by.zbokostya.zerend.entity.Apikey;
 import by.zbokostya.zerend.service.IApikeyAbilityService;
@@ -13,12 +14,10 @@ import java.util.UUID;
 @Service
 public class ApikeyAbilityService implements IApikeyAbilityService {
 
-    private final ApikeyDao apikeyDao;
-    private final ProjectDao projectDao;
-    private final AbilityDao abilityDao;
+    private final IApikeyDao apikeyDao;
+    private final IAbilityDao abilityDao;
 
-    public ApikeyAbilityService(AbilityDao abilityDao, ApikeyDao apikeyDao, ProjectDao projectDao) {
-        this.projectDao = projectDao;
+    public ApikeyAbilityService(AbilityDao abilityDao, ApikeyDao apikeyDao) {
         this.abilityDao = abilityDao;
         this.apikeyDao = apikeyDao;
     }

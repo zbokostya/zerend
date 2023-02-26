@@ -3,7 +3,7 @@ package by.zbokostya.zerend.security;
 import by.zbokostya.zerend.entity.Apikey;
 import by.zbokostya.zerend.entity.User;
 import by.zbokostya.zerend.service.impl.ApikeyProjectService;
-import by.zbokostya.zerend.service.UserService;
+import by.zbokostya.zerend.service.impl.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,12 +34,8 @@ public class DomainUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //TODO
-        // not used if api key?
-        // used only on auth?
-        if (username.length() == 64) {
-//            return createSpringSecurityUser(username, apikeyProjectService.findByUsername(username));
-            return createSpringSecurityUser(username, userService.findUserByUsername(username));
+        if (username.startsWith("ApiKey ")) {
+            return createSpringSecurityUser(username, apikeyProjectService.findByUsername(username));
         } else {
             return createSpringSecurityUser(username, userService.findUserByUsername(username));
         }

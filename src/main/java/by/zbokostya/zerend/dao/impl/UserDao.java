@@ -2,6 +2,7 @@ package by.zbokostya.zerend.dao.impl;
 
 import by.zbokostya.generated.jooq.Tables;
 import by.zbokostya.zerend.dao.IUserDao;
+import by.zbokostya.zerend.dao.error.NoSuchUserException;
 import by.zbokostya.zerend.entity.Authority;
 import by.zbokostya.zerend.entity.User;
 import by.zbokostya.zerend.entity.input.LoginInput;
@@ -45,7 +46,8 @@ public class UserDao extends JOOQGenericDao<User, UUID> implements IUserDao {
     @Override
     public User findUserByUsername(String login) {
         return getDSLContext()
-                .fetchOne(USER, USER.LOGIN.eq(login))
+                .fetchOptional(USER, USER.LOGIN.eq(login))
+                .orElseThrow(() -> new NoSuchUserException("No such user with this login"))
                 .map(
                         r -> {
                             User user = r.into(User.class);

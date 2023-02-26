@@ -2,7 +2,7 @@ package by.zbokostya.zerend.controller;
 
 
 import by.zbokostya.zerend.entity.Ability;
-import by.zbokostya.zerend.service.ApikeyService;
+import by.zbokostya.zerend.service.impl.ApikeyService;
 import by.zbokostya.zerend.service.impl.ApikeyAbilityService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -53,19 +53,4 @@ public class ApikeyAbilityController {
         return ResponseEntity.ok(ability);
     }
 
-//    @PostMapping("/ability/create")
-//    public ResponseEntity<Ability> create(@PathVariable UUID projectId,
-//                                          @RequestBody AbilityInput abilityInput) {
-//        UUID apikeyId = apikeyService.findByUsername(getCurrentUserLogin()).getId();
-//        Ability newAbility = new Ability();
-//
-//        UUID uuid = UUID.randomUUID();
-//        newAbility.setId(uuid);
-//        newAbility.setName(abilityInput.getName());
-//        newAbility.setType(abilityInput.getType());
-//        newAbility.setUrl(abilityInput.getUrl());
-//        newAbility.setProject(projectId);
-//        return ResponseEntity.ok(
-//                apikeyAbilityService.insert(apikeyId, projectId, newAbility));
-//    }
 }

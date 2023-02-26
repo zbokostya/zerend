@@ -1,10 +1,12 @@
 package by.zbokostya.zerend.controller;
 
 import by.zbokostya.zerend.controller.error.BadRequestAlertException;
+import by.zbokostya.zerend.entity.Apikey;
 import by.zbokostya.zerend.entity.Project;
 import by.zbokostya.zerend.entity.response.ProjectResponse;
+import by.zbokostya.zerend.service.impl.ApikeyService;
+import by.zbokostya.zerend.service.impl.UserService;
 import by.zbokostya.zerend.service.impl.ProjectService;
-import by.zbokostya.zerend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +28,12 @@ import static by.zbokostya.zerend.security.SecurityUtils.getCurrentUserLogin;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final ApikeyService apikeyService;
     private final UserService userService;
 
-    public ProjectController(ProjectService projectService, UserService userService) {
+    public ProjectController(ProjectService projectService, ApikeyService apikeyService, UserService userService) {
         this.projectService = projectService;
+        this.apikeyService = apikeyService;
         this.userService = userService;
     }
 
@@ -90,6 +94,12 @@ public class ProjectController {
 
         projectService.updateProject(existingProject);
         return ResponseEntity.ok(existingProject);
+    }
+
+    @GetMapping("/project/{projectId}/apikey")
+    public ResponseEntity<Apikey> getProjectApikey(
+            @PathVariable UUID projectId) {
+        return ResponseEntity.ok(apikeyService.getApiKey(projectId));
     }
 
 

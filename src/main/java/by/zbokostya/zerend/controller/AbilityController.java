@@ -2,10 +2,8 @@ package by.zbokostya.zerend.controller;
 
 import by.zbokostya.zerend.entity.Ability;
 import by.zbokostya.zerend.entity.input.AbilityInput;
-import by.zbokostya.zerend.service.AbilityService;
-import by.zbokostya.zerend.service.UserService;
-import by.zbokostya.zerend.service.impl.ApikeyProjectService;
-import by.zbokostya.zerend.service.impl.ProjectService;
+import by.zbokostya.zerend.service.impl.AbilityService;
+import by.zbokostya.zerend.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -34,18 +32,14 @@ public class AbilityController {
 
     private final AbilityService abilityService;
     private final UserService userService;
-    private final ApikeyProjectService apikeyProjectService;
 
     @Value("${directory.default}")
     private String defaultDirectory;
 
-    private final ProjectService projectService;
 
-    public AbilityController(AbilityService abilityService, UserService userService, ApikeyProjectService apikeyProjectService, ProjectService projectService) {
+    public AbilityController(AbilityService abilityService, UserService userService) {
         this.abilityService = abilityService;
         this.userService = userService;
-        this.apikeyProjectService = apikeyProjectService;
-        this.projectService = projectService;
     }
 
     @GetMapping("/ability/{abilityId}")
@@ -100,8 +94,7 @@ public class AbilityController {
 
     private UUID findUserByUsername() {
         String login = getCurrentUserLogin();
-        if (login.length() == 64) return apikeyProjectService.findByUsername(login).getId();
-        else return userService.findUserByUsername(login).getId();
+        return userService.findUserByUsername(login).getId();
     }
 
 }

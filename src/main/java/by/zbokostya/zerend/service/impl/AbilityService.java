@@ -1,4 +1,4 @@
-package by.zbokostya.zerend.service;
+package by.zbokostya.zerend.service.impl;
 
 import by.zbokostya.zerend.dao.IAbilityDao;
 import by.zbokostya.zerend.dao.IProjectDao;

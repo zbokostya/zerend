@@ -4,7 +4,7 @@ package by.zbokostya.zerend.controller;
 import by.zbokostya.zerend.entity.input.LoginInput;
 import by.zbokostya.zerend.security.jwt.JWTFilter;
 import by.zbokostya.zerend.security.jwt.TokenProvider;
-import by.zbokostya.zerend.service.UserService;
+import by.zbokostya.zerend.service.impl.UserService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package by.zbokostya.zerend.service;
+package by.zbokostya.zerend.service.impl;
 
 import by.zbokostya.zerend.dao.impl.UserDao;
 import by.zbokostya.zerend.entity.User;

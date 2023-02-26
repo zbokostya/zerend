@@ -33,5 +33,28 @@ public class ApikeyDao implements IApikeyDao {
                 .into(Apikey.class);
     }
 
+    public void insert(Apikey apikey) {
+        dslContext
+                .insertInto(APIKEY, APIKEY.ID, APIKEY.PROJECT, APIKEY.APIKEY_, APIKEY.ROLE)
+                .values(apikey.getId(), apikey.getProject(), apikey.getApikey(), apikey.getRole())
+                .execute();
+    }
+
+    public Apikey findByProjectId(UUID uuid) {
+        return dslContext
+                .fetchOptional(APIKEY, APIKEY.PROJECT.eq(uuid))
+                .orElseThrow(() -> new RuntimeException("ApikeyDao"))
+                .into(Apikey.class);
+    }
+
+    public boolean checkExists(UUID projectId) {
+        return dslContext
+                .fetchExists(
+                        dslContext.selectFrom(APIKEY)
+                                .where(APIKEY.PROJECT.eq(projectId)
+                                )
+                );
+    }
+
 
 }
