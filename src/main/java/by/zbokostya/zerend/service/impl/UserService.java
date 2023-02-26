@@ -17,6 +17,7 @@ public class UserService {
     }
 
     public UUID createUser(LoginInput loginInput) {
+        userDao.
         return userDao.createUser(loginInput);
     }
 

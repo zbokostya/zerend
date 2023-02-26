@@ -6,6 +6,7 @@ import by.zbokostya.zerend.dao.error.NoSuchUserException;
 import by.zbokostya.zerend.entity.Authority;
 import by.zbokostya.zerend.entity.User;
 import by.zbokostya.zerend.entity.input.LoginInput;
+import by.zbokostya.zerend.service.impl.EmailService;
 import org.jooq.DSLContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,12 @@ public class UserDao extends JOOQGenericDao<User, UUID> implements IUserDao {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserDao(DSLContext dslContext, PasswordEncoder passwordEncoder) {
+    private final EmailService emailService;
+
+    public UserDao(DSLContext dslContext, PasswordEncoder passwordEncoder, EmailService emailService) {
         super(User.class, USER, dslContext);
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Override
@@ -31,8 +35,10 @@ public class UserDao extends JOOQGenericDao<User, UUID> implements IUserDao {
         User user = new User();
         user.setId(UUID.randomUUID());
         user.setLogin(loginInput.getLogin());
-        //todo
-        user.setEmail("");
+        emailService.sendSimpleMessage(loginInput.getEmail(),
+                "Hello from Zerend",
+                "new email");
+        user.setEmail(loginInput.getEmail());
         user.setAuthorities(List.of(new Authority("ROLE_USER")));
         user.setPassword(passwordEncoder.encode(loginInput.getPassword()));
         insert(user);

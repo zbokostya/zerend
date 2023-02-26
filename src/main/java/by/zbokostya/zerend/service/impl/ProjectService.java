@@ -38,8 +38,7 @@ public class ProjectService implements IProjectService {
     }
 
     public Project getProjectById(UUID userId, UUID projectId) {
-        Project project = projectDao.get(projectId);
-        return project;
+        return projectDao.get(projectId);
     }
 
 
