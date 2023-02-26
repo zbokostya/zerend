@@ -1,19 +1,20 @@
-package by.zbokostya.zerend.service;
+package by.zbokostya.zerend.service.impl;
 
-import by.zbokostya.zerend.dao.impl.ApikeyDao;
-import by.zbokostya.zerend.dao.impl.ProjectDao;
+import by.zbokostya.zerend.dao.IApikeyDao;
+import by.zbokostya.zerend.dao.IProjectDao;
 import by.zbokostya.zerend.entity.Apikey;
 import by.zbokostya.zerend.entity.Project;
+import by.zbokostya.zerend.service.IApikeyProjectService;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public class ApikeyProjectService {
-    private final ApikeyDao apikeyDao;
-    private final ProjectDao projectDao;
+public class ApikeyProjectService implements IApikeyProjectService {
+    private final IApikeyDao apikeyDao;
+    private final IProjectDao projectDao;
 
-    public ApikeyProjectService(ApikeyDao apikeyDao, ProjectDao projectDao) {
+    public ApikeyProjectService(IApikeyDao apikeyDao, IProjectDao projectDao) {
         this.apikeyDao = apikeyDao;
         this.projectDao = projectDao;
     }
@@ -27,7 +28,6 @@ public class ApikeyProjectService {
         Apikey apikey = apikeyDao.find(apikeyId);
         return projectDao.get(apikey.getProject());
     }
-
 
 
 }

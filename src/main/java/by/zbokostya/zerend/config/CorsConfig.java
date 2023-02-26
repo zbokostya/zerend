@@ -8,13 +8,6 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
-    class Node<T> {
-        T value;
-
-        public Node(T value) {
-            this.value = value;
-        }
-    }
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

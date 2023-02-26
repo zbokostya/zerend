@@ -10,6 +10,21 @@ public class Ability {
     private String type;
     private UUID project;
 
+    public Ability() {
+    }
+
+    public Ability(String name) {
+        this.name = name;
+    }
+
+    public Ability(UUID id, String name, String url, String type, UUID project) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.type = type;
+        this.project = project;
+    }
+
     public UUID getId() {
         return id;
     }

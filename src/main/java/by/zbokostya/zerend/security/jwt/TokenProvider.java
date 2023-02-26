@@ -31,6 +31,13 @@ public class TokenProvider {
     private String key;
     private static final String AUTHORITIES_KEY = "auth";
 
+    @Value("${jwt.expireTime}")
+    private Long jwtTokenExpireTime;
+
+    @Value("${jwt.refreshExpireTime}")
+    private Long jwtRefreshTokenExpireTime;
+
+
 
     public String generateToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
@@ -41,8 +48,23 @@ public class TokenProvider {
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, key)
-                .setExpiration(new Date(now + 2592000000L))
-//                .setExpiration(new Date(now + 10000L))
+//                .setExpiration(new Date(now + 2592000000L))
+                .setExpiration(new Date(now + jwtTokenExpireTime))
+                .compact();
+    }
+
+    // TODO
+    public String generateRefreshToken(Authentication authentication) {
+        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        long now = new Date().getTime();
+
+        return Jwts
+                .builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS512, key)
+//                .setExpiration(new Date(now + 2592000000L))
+                .setExpiration(new Date(now + jwtRefreshTokenExpireTime))
                 .compact();
     }
 

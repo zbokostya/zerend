@@ -8,6 +8,16 @@ public class Project {
     private String url;
     private UUID owner;
 
+    public Project() {
+    }
+
+    public Project(UUID id, String name, String url, UUID owner) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.owner = owner;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -3,7 +3,7 @@ package by.zbokostya.zerend.controller;
 import by.zbokostya.zerend.controller.error.BadRequestAlertException;
 import by.zbokostya.zerend.entity.Project;
 import by.zbokostya.zerend.entity.response.ProjectResponse;
-import by.zbokostya.zerend.service.ProjectService;
+import by.zbokostya.zerend.service.impl.ProjectService;
 import by.zbokostya.zerend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

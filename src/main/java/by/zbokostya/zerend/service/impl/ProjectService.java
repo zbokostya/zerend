@@ -1,8 +1,9 @@
-package by.zbokostya.zerend.service;
+package by.zbokostya.zerend.service.impl;
 
-import by.zbokostya.zerend.dao.IApikeyDao;
 import by.zbokostya.zerend.dao.IProjectDao;
+import by.zbokostya.zerend.dao.impl.ProjectDao;
 import by.zbokostya.zerend.entity.Project;
+import by.zbokostya.zerend.service.IProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,16 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProjectService {
+public class ProjectService implements IProjectService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
     private final IProjectDao projectDao;
-    private final IApikeyDao apikeyDao;
 
-    public ProjectService(IProjectDao projectDao, IApikeyDao apikeyDao) {
+    public ProjectService(ProjectDao projectDao) {
         this.projectDao = projectDao;
-        this.apikeyDao = apikeyDao;
     }
 
     public void updateProject(Project project) {

@@ -36,15 +36,4 @@ public class ProjectDao extends JOOQGenericDao<Project, UUID> implements IProjec
                         .where(PROJECT.ID.eq(projectId)
                                 .and(PROJECT.OWNER.eq(userId))));
     }
-
-    @Override
-    public Project insert(Project project) {
-        return null;
-    }
-
-    @Override
-    public int deleteById(UUID uuid) {
-        return 0;
-    }
-
 }

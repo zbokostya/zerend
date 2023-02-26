@@ -2,7 +2,7 @@ package by.zbokostya.zerend.security;
 
 import by.zbokostya.zerend.entity.Apikey;
 import by.zbokostya.zerend.entity.User;
-import by.zbokostya.zerend.service.ApikeyProjectService;
+import by.zbokostya.zerend.service.impl.ApikeyProjectService;
 import by.zbokostya.zerend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

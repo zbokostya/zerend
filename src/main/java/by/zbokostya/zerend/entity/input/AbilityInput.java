@@ -1,8 +1,12 @@
 package by.zbokostya.zerend.entity.input;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class AbilityInput {
     private String name;
+    @JsonIgnore
     private String url;
+    @JsonIgnore
     private String type;
 
     public String getName() {

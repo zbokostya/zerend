@@ -2,7 +2,7 @@ package by.zbokostya.zerend.controller;
 
 import by.zbokostya.zerend.entity.Apikey;
 import by.zbokostya.zerend.entity.Project;
-import by.zbokostya.zerend.service.ApikeyProjectService;
+import by.zbokostya.zerend.service.impl.ApikeyProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
