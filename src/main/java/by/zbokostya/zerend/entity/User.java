@@ -11,6 +11,7 @@ public class User {
     private String login;
     private String password;
     private String email;
+    private boolean enabled;
 
 
     private List<Authority> authorities;
@@ -54,5 +55,13 @@ public class User {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -10,6 +10,7 @@ import by.zbokostya.generated.jooq.tables.Project;
 import by.zbokostya.generated.jooq.tables.Role;
 import by.zbokostya.generated.jooq.tables.User;
 import by.zbokostya.generated.jooq.tables.UserRole;
+import by.zbokostya.generated.jooq.tables.Verification;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +64,11 @@ public class Public extends SchemaImpl {
     public final UserRole USER_ROLE = UserRole.USER_ROLE;
 
     /**
+     * The table <code>public.verification</code>.
+     */
+    public final Verification VERIFICATION = Verification.VERIFICATION;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -83,7 +89,8 @@ public class Public extends SchemaImpl {
             Project.PROJECT,
             Role.ROLE,
             User.USER,
-            UserRole.USER_ROLE
+            UserRole.USER_ROLE,
+            Verification.VERIFICATION
         );
     }
 }

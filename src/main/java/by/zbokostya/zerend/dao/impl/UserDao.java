@@ -7,11 +7,14 @@ import by.zbokostya.zerend.entity.Authority;
 import by.zbokostya.zerend.entity.User;
 import by.zbokostya.zerend.entity.input.LoginInput;
 import by.zbokostya.zerend.service.impl.EmailService;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static by.zbokostya.generated.jooq.Tables.USER;
@@ -20,29 +23,15 @@ import static by.zbokostya.generated.jooq.Tables.USER_ROLE;
 @Component
 public class UserDao extends JOOQGenericDao<User, UUID> implements IUserDao {
 
-    private final PasswordEncoder passwordEncoder;
 
-    private final EmailService emailService;
-
-    public UserDao(DSLContext dslContext, PasswordEncoder passwordEncoder, EmailService emailService) {
+    public UserDao(DSLContext dslContext) {
         super(User.class, USER, dslContext);
-        this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService;
     }
 
     @Override
-    public UUID createUser(LoginInput loginInput) {
-        User user = new User();
-        user.setId(UUID.randomUUID());
-        user.setLogin(loginInput.getLogin());
-        emailService.sendSimpleMessage(loginInput.getEmail(),
-                "Hello from Zerend",
-                "new email");
-        user.setEmail(loginInput.getEmail());
-        user.setAuthorities(List.of(new Authority("ROLE_USER")));
-        user.setPassword(passwordEncoder.encode(loginInput.getPassword()));
+    @Transactional
+    public UUID createUser(User user) {
         insert(user);
-
         getDSLContext().insertInto(USER_ROLE)
                 .values(user.getId(), "ROLE_USER")
                 .execute();
@@ -66,6 +55,17 @@ public class UserDao extends JOOQGenericDao<User, UUID> implements IUserDao {
                             return user;
                         }
                 );
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return super
+                .fetchOne(USER.EMAIL.eq(email));
+    }
+
+    @Override
+    public boolean checkExistsUserByEmail(String email) {
+        return findUserByEmail(email).isPresent();
     }
 
     @Override

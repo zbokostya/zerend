@@ -54,6 +54,7 @@ public class AuthController {
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
+
     static class JWTToken {
 
         private String idToken;

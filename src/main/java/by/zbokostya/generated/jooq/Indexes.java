@@ -9,6 +9,7 @@ import by.zbokostya.generated.jooq.tables.Apikey;
 import by.zbokostya.generated.jooq.tables.Project;
 import by.zbokostya.generated.jooq.tables.Role;
 import by.zbokostya.generated.jooq.tables.User;
+import by.zbokostya.generated.jooq.tables.Verification;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -35,4 +36,5 @@ public class Indexes {
     public static final Index USER_EMAIL_UINDEX = Internal.createIndex(DSL.name("user_email_uindex"), User.USER, new OrderField[] { User.USER.EMAIL }, true);
     public static final Index USER_ID_UINDEX = Internal.createIndex(DSL.name("user_id_uindex"), User.USER, new OrderField[] { User.USER.ID }, true);
     public static final Index USER_LOGIN_UINDEX = Internal.createIndex(DSL.name("user_login_uindex"), User.USER, new OrderField[] { User.USER.LOGIN }, true);
+    public static final Index VERIFICATION_ID_UINDEX = Internal.createIndex(DSL.name("verification_id_uindex"), Verification.VERIFICATION, new OrderField[] { Verification.VERIFICATION.ID }, true);
 }

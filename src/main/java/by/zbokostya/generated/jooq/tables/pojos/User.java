@@ -20,6 +20,7 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String email;
+    private Boolean enabled;
 
     public User() {}
 
@@ -28,18 +29,21 @@ public class User implements Serializable {
         this.login = value.login;
         this.password = value.password;
         this.email = value.email;
+        this.enabled = value.enabled;
     }
 
     public User(
         UUID id,
         String login,
         String password,
-        String email
+        String email,
+        Boolean enabled
     ) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.enabled = enabled;
     }
 
     /**
@@ -98,6 +102,20 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    /**
+     * Getter for <code>public.user.enabled</code>.
+     */
+    public Boolean getEnabled() {
+        return this.enabled;
+    }
+
+    /**
+     * Setter for <code>public.user.enabled</code>.
+     */
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -131,6 +149,12 @@ public class User implements Serializable {
         }
         else if (!this.email.equals(other.email))
             return false;
+        if (this.enabled == null) {
+            if (other.enabled != null)
+                return false;
+        }
+        else if (!this.enabled.equals(other.enabled))
+            return false;
         return true;
     }
 
@@ -142,6 +166,7 @@ public class User implements Serializable {
         result = prime * result + ((this.login == null) ? 0 : this.login.hashCode());
         result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
         result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
+        result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
         return result;
     }
 
@@ -153,6 +178,7 @@ public class User implements Serializable {
         sb.append(", ").append(login);
         sb.append(", ").append(password);
         sb.append(", ").append(email);
+        sb.append(", ").append(enabled);
 
         sb.append(")");
         return sb.toString();
