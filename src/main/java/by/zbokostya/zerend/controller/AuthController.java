@@ -40,12 +40,26 @@ public class AuthController {
 
     }
 
+    @PostMapping("/verify")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<UUID> verifyCode(@RequestParam("code") String code) {
+
+        //todo redirect
+        return ResponseEntity.ok(userService.verifyUser(code));
+
+    }
+
+
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@RequestBody LoginInput loginInput) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginInput.getLogin(),
                 loginInput.getPassword()
         );
+        //todo
+        if(!userService.findUserByUsername(loginInput.getLogin()).isEnabled()) {
+            throw new RuntimeException("un");
+        }
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);

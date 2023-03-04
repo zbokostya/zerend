@@ -25,7 +25,7 @@ import static by.zbokostya.zerend.security.SecurityUtils.getCurrentUserLogin;
 @RequestMapping("/apikey/project/{projectId}")
 public class ApikeyAbilityController {
 
-    @Value("${directory.default}")
+    @Value("${zerend.directory.default}")
     private String defaultDirectory;
 
     private final ApikeyAbilityService apikeyAbilityService;

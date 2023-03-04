@@ -2,22 +2,28 @@ package by.zbokostya.zerend.dao.impl;
 
 import by.zbokostya.zerend.entity.VerificationToken;
 import org.jooq.DSLContext;
+import org.springframework.stereotype.Repository;
+
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
 import static by.zbokostya.generated.jooq.Tables.VERIFICATION;
 
-public class EmailDao {
-    private final DSLContext dslContext;
+@Repository
+public class EmailDao extends JOOQGenericDao<VerificationToken, UUID> {
 
     public EmailDao(DSLContext dslContext) {
-        this.dslContext = dslContext;
+        super(VerificationToken.class, VERIFICATION, dslContext);
     }
 
     public void saveVerification(VerificationToken token) {
-        dslContext.insertInto(VERIFICATION,
-                VERIFICATION.ID,
-                VERIFICATION.USER,
-                VERIFICATION.TOKEN,
-                VERIFICATION.EXPIRE_TIME)
-                .values(token.getId(), token.getUserId(), token.getToken(), token.calcExpireTime())
-        .execute();
+        super.insert(token);
     }
+
+    public Optional<VerificationToken> getTokenByToken(String token) {
+        return super.fetchOne(VERIFICATION.TOKEN.eq(token)
+                .and(VERIFICATION.EXPIRE_TIME.greaterOrEqual(Instant.now())));
+    }
+
 }

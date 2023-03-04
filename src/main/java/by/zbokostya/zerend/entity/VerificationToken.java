@@ -7,12 +7,13 @@ public class VerificationToken {
     private static final long EXPIRATION = 60 * 60 * 24;
     private UUID id;
     private String token;
-    private UUID userId;
-    private Instant expireTime;
+    private UUID user;
+    private final Instant expireTime;
 
-    public Instant calcExpireTime() {
-        return Instant.now().plusSeconds(EXPIRATION);
+    public VerificationToken() {
+        this.expireTime = Instant.now().plusSeconds(EXPIRATION);
     }
+
 
     public UUID getId() {
         return id;
@@ -30,19 +31,16 @@ public class VerificationToken {
         this.token = token;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UUID getUser() {
+        return user;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setUser(UUID user) {
+        this.user = user;
     }
 
     public Instant getExpireTime() {
         return expireTime;
     }
 
-    public void setExpireTime(Instant expireTime) {
-        this.expireTime = expireTime;
-    }
 }

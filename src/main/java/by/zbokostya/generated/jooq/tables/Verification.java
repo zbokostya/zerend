@@ -8,13 +8,6 @@ import by.zbokostya.generated.jooq.Indexes;
 import by.zbokostya.generated.jooq.Keys;
 import by.zbokostya.generated.jooq.Public;
 import by.zbokostya.generated.jooq.tables.records.VerificationRecord;
-
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
@@ -32,6 +25,12 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Function;
 
 
 /**
@@ -63,17 +62,17 @@ public class Verification extends TableImpl<VerificationRecord> {
     /**
      * The column <code>public.verification.token</code>.
      */
-    public final TableField<VerificationRecord, String> TOKEN = createField(DSL.name("token"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<VerificationRecord, String> TOKEN = createField(DSL.name("token"), SQLDataType.VARCHAR, this, "");
 
     /**
      * The column <code>public.verification.user</code>.
      */
-    public final TableField<VerificationRecord, UUID> USER = createField(DSL.name("user"), SQLDataType.UUID, this, "");
+    public final TableField<VerificationRecord, UUID> USER = createField(DSL.name("user"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
      * The column <code>public.verification.expire_time</code>.
      */
-    public final TableField<VerificationRecord, Instant> EXPIRE_TIME = createField(DSL.name("expire_time"), SQLDataType.INSTANT, this, "");
+    public final TableField<VerificationRecord, Instant> EXPIRE_TIME = createField(DSL.name("expire_time"), SQLDataType.INSTANT.nullable(false), this, "");
 
     private Verification(Name alias, Table<VerificationRecord> aliased) {
         this(alias, aliased, null);

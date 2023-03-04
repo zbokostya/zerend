@@ -20,11 +20,28 @@
         <db.url>jdbc:postgresql://localhost:5432/zerend</db.url>
         <db.username>zbokostya</db.username>
         <db.password>zbokostya</db.password>
-        <jooq.skip>true</jooq.skip>
+        <jooq.skip>false</jooq.skip>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
 
-<!--        spring-->
+        <!--        spring-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -98,7 +115,7 @@
             <scope>test</scope>
         </dependency>
 
-<!--        jooq-->
+        <!--        jooq-->
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
@@ -156,7 +173,7 @@
                             <forcedTypes>
                                 <forcedType>
                                     <name>Instant</name>
-                                    <includeTypes>timestamptz</includeTypes>
+                                    <includeTypes>timestamp</includeTypes>
                                 </forcedType>
                             </forcedTypes>
                         </database>

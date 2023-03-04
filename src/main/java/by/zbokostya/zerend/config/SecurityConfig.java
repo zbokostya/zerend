@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/api/register").permitAll()
                         .antMatchers("/api/authenticate").permitAll()
+                        .antMatchers("/api/verify**").permitAll()
                         .antMatchers("/user/**").authenticated()
                         .antMatchers("/user/project/**/apikey").permitAll()
                         .antMatchers("/apikey/project/**")

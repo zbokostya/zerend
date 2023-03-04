@@ -5,15 +5,10 @@ import by.zbokostya.zerend.dao.IUserDao;
 import by.zbokostya.zerend.dao.error.NoSuchUserException;
 import by.zbokostya.zerend.entity.Authority;
 import by.zbokostya.zerend.entity.User;
-import by.zbokostya.zerend.entity.input.LoginInput;
-import by.zbokostya.zerend.service.impl.EmailService;
-import org.jooq.Condition;
 import org.jooq.DSLContext;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -81,6 +76,13 @@ public class UserDao extends JOOQGenericDao<User, UUID> implements IUserDao {
     @Override
     public User update(User entity) {
         return null;
+    }
+
+    public void setEnabled(UUID id) {
+        getDSLContext().update(USER)
+                .set(USER.ENABLED, true)
+                .where(USER.ID.eq(id))
+                .execute();
     }
 
     @Override

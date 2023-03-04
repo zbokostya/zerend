@@ -22,7 +22,7 @@ public class AbilityService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${directory.default}")
+    @Value("${zerend.directory.default}")
     private String defaultDirectory;
 
     private final IAbilityDao abilityDao;

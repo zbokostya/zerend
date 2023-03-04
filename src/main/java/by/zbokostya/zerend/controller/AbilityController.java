@@ -33,7 +33,7 @@ public class AbilityController {
     private final AbilityService abilityService;
     private final UserService userService;
 
-    @Value("${directory.default}")
+    @Value("${zerend.directory.default}")
     private String defaultDirectory;
 
 
